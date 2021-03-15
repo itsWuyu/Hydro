@@ -9,7 +9,7 @@ There will be 2 folders
  - Safty system for the waterpump
 
 2. Folder : 
-   - Code for the sensors and the main system
+  - Code for the sensors and the main system
 
 Feel free to use it :)
 
