@@ -1,9 +1,9 @@
 Parts : 
 
-Arduino Nano
-HC-SR04 ultrasonic-sensor
-433MHZ Receiver and Wireless Transmitter Module
-433MHZ Power outlet
+ - Arduino Nano
+ - HC-SR04 ultrasonic-sensor
+ - 433MHZ Receiver and Wireless Transmitter Module
+ - 433MHZ Power outlet
 
 Links : 
 
