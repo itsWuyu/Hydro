@@ -41,7 +41,7 @@ void bot_setup() {
 
 
 String ipAddress = "";
- bool again = true;
+bool again = true;
 
 
 void setup () {
@@ -118,7 +118,7 @@ void loop () {
       delay(5000);
     }
     again = false;
-    Serial.println("False");
+    
     }
 
     else{
