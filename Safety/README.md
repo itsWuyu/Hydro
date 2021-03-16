@@ -7,7 +7,7 @@ Parts :
 
 Links : 
 
-https://randomnerdtutorials.com/decode-and-send-433-mhz-rf-signals-with-arduino/
-https://playground.arduino.cc/Code/NewPing/
+ - https://randomnerdtutorials.com/decode-and-send-433-mhz-rf-signals-with-arduino/
+ - https://playground.arduino.cc/Code/NewPing/
 
 
