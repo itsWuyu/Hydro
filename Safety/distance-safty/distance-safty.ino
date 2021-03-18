@@ -135,7 +135,7 @@ void loop () {
       delay(1000);
     if(count == 3){
       for (int i = 0; i < 3; i++){
-      bot.sendMessage("-529143841", "SCHLAUCH AB !! ERROR !! PUMPE DEAKTIVIERT !! *" + String(distance, 1) + "* cm ", "Markdown");
+      bot.sendMessage("CHATID", "SCHLAUCH AB !! ERROR !! PUMPE DEAKTIVIERT !! *" + String(distance, 1) + "* cm ", "Markdown");
       delay(1000);
       }
     again = false;
