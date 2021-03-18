@@ -92,10 +92,22 @@ void loop () {
 
     ArduinoOTA.handle(); 
     
-    // Every 100 miliseconds, do a measurement using the sensor and print the distance in centimeters.
-    double distance = sonar.ping_cm();
+     // Every 100 miliseconds, do a measurement using the sensor and print the distance in centimeters.
+    //double distance = sonar.ping_cm();
+    double mm[9] = {};
 
-   
+	for(int i = 0; i < 9; i++){	
+	mm[i] = sonar.ping_cm();
+  delay(100);
+	}
+	std::sort(mm, mm+5);
+  for (int i = 0 ; i < 9; i++){
+    Serial.print(mm[i]);
+    Serial.print(" ");
+    }
+  
+  double distance = mm[5];
+  	 
  
   
 
@@ -103,24 +115,33 @@ void loop () {
        again = true;
        Serial.print("Distance: ");
        Serial.print(distance, 1); Serial.println(" cm");
+       if(count >= 1 && count < 3){
+        mySwitch.send("001000101000110101000111");
+        }
        delay(1000);
+       count = 0;
+       
        
       
       }
    else if((distance > 10 || distance <= 0) && again == true ) {
-    for (int i = 0; i < 3 ; i++){
+   
       Serial.println("ERROR ");
-      Serial.println(i+1);
       Serial.print("Distance: ");
       Serial.print(distance, 1); Serial.println(" cm");
       mySwitch.send("001010110000111011100111");
-      bot.sendMessage("CHAT ID1", "SCHLAUCH AB !! ERROR !! PUMPE DEAKTIVIERT !!  ", "Markdown");
-      delay(5000);
-    }
+      count++;
+      Serial.println(count);
+      delay(1000);
+    if(count == 3){
+      for (int i = 0; i < 3; i++){
+      bot.sendMessage("CHATID", "SCHLAUCH AB !! ERROR !! PUMPE DEAKTIVIERT !! *" + String(distance, 1) + "* cm ", "Markdown");
+      delay(1000);
+      }
     again = false;
-    
+    Serial.println("False");
     }
-
+    }
     else{
       }
       
