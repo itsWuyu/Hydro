@@ -14,7 +14,7 @@ There will be 2 folders
 Feel free to use it :)
 
 TODO : 
- - Second "Hidden" Page to Store data into Database
  - Check Sensor values via Telegram
  - Webscraper to get data from hidden page and store it into a database
  - Clean up Code
+ - include MH-Z19B 
