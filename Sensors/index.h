@@ -6,6 +6,7 @@ const char index_html[] PROGMEM = R"rawliteral(
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="https://code.highcharts.com/highcharts.js"></script>
+  <link rel="shortcut icon" type="image/x-icon" href="https://img.icons8.com/color/48/000000/potted-plant--v2.png">
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Cousine:wght@700&family=Roboto:wght@700&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
