@@ -10,6 +10,8 @@
 #include <DHT.h>
 #include <DallasTemperature.h>
 #include <SoftwareSerial.h>
+#include "index.h"
+
 
 
 
@@ -110,202 +112,6 @@ String readWaterLevel(){
 
 
 
-const char index_html[] PROGMEM = R"rawliteral(
-<!DOCTYPE HTML><html>
-
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script src="https://code.highcharts.com/highcharts.js"></script>
-  <style>
-    body {
-      min-width: 310px;
-      max-width: 800px;
-      height: 400px;
-      margin: 0 auto;
-    }
-    h2 {
-      font-family: Arial;
-      font-size: 2.5rem;
-      text-align: center;
-    }
-  </style>
-</head>
-<body>
-  <h2>Hydro Farm</h2>
-  <div id="chart-temperature" class="container"></div>
-  <div id="chart-humidity" class="container"></div>
-  <div id="chart-watertemp" class="container"></div>
-  <div id="chart-waterlevel" class="container"></div>
-</body>
-<script>
-var chartT = new Highcharts.Chart({
-  chart:{ renderTo : 'chart-temperature' },
-  title: { text: 'DHT11 Temperature' },
-  series: [{
-    showInLegend: false,
-    data: []
-  }],
-  plotOptions: {
-    line: { animation: false,
-      dataLabels: { enabled: true }
-    },
-    series: { color: '#059e8a' }
-  },
-  xAxis: { type: 'datetime',
-    dateTimeLabelFormats: { second: '%H:%M:%S' }
-  },
-  yAxis: {
-    title: { text: 'Temperature (Celsius)' }
-  
-  },
-  credits: { enabled: false }
-});
-setInterval(function ( ) {
-  var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      var x = (new Date()).getTime()+ 3600000, // + 3600000 for UTC +01
-          y = parseFloat(this.responseText);
-      //console.log(this.responseText);
-      if(chartT.series[0].data.length > 40) {
-        chartT.series[0].addPoint([x, y], true, true, true);
-      } else {
-        chartT.series[0].addPoint([x, y], true, false, true);
-      }
-    }
-  };
-  xhttp.open("GET", "/temperature", true);
-  xhttp.send();
-}, 30000 ) ;
-
-var chartH = new Highcharts.Chart({
-  chart:{ renderTo:'chart-humidity' },
-  title: { text: 'DHT11 Humidity' },
-  series: [{
-    showInLegend: false,
-    data: []
-  }],
-  plotOptions: {
-    line: { animation: false,
-      dataLabels: { enabled: true }
-    }
-  },
-  xAxis: {
-    type: 'datetime',
-    dateTimeLabelFormats: { second: '%H:%M:%S' }
-  },
-  yAxis: {
-    title: { text: 'Humidity (%)' }
-  },
-  credits: { enabled: false }
-});
-setInterval(function ( ) {
-  var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      var x = (new Date()).getTime()+ 3600000,
-          y = parseFloat(this.responseText);
-      //console.log(this.responseText);
-      if(chartH.series[0].data.length > 40) {
-        chartH.series[0].addPoint([x, y], true, true, true);
-      } else {
-        chartH.series[0].addPoint([x, y], true, false, true);
-      }
-    }
-  };
-  xhttp.open("GET", "/humidity", true);
-  xhttp.send();
-}, 30000 ) ;
-
-var chartP = new Highcharts.Chart({
-  chart:{ renderTo : 'chart-watertemp' },
-  title: { text: 'DS18B20 Watertemp' },
-  series: [{
-    showInLegend: false,
-    data: []
-  }],
-  plotOptions: {
-    line: { animation: false,
-      dataLabels: { enabled: true }
-    },
-    series: { color: '#059e8a' }
-  },
-  xAxis: { type: 'datetime',
-    dateTimeLabelFormats: { second: '%H:%M:%S' }
-  },
-  yAxis: {
-    title: { text: 'Temperature (Celsius)' }
-  
-  },
-  credits: { enabled: false }
-});
-setInterval(function ( ) {
-  var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      var x = (new Date()).getTime()+ 3600000,
-          y = parseFloat(this.responseText);
-      //console.log(this.responseText);
-      if(chartP.series[0].data.length > 40) {
-        chartP.series[0].addPoint([x, y], true, true, true);
-      } else {
-        chartP.series[0].addPoint([x, y], true, false, true);
-      }
-    }
-  };
-  xhttp.open("GET", "/watertemp", true);
-  xhttp.send();
-}, 30000 ) ;
-
-var chartL = new Highcharts.Chart({
-  chart:{ renderTo : 'chart-waterlevel' },
-  title: { text: 'Water Level' },
-  series: [{
-    showInLegend: false,
-    data: []
-  }],
-  plotOptions: {
-    line: { animation: false,
-      dataLabels: { enabled: true }
-    },
-    series: { color: '#059e8a' }
-  },
-  xAxis: { type: 'datetime',
-    dateTimeLabelFormats: { second: '%H:%M:%S' }
-  },
-  yAxis: {
-    title: { text: 'Level' }
-  
-  },
-  credits: { enabled: false }
-});
-setInterval(function ( ) {
-  var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      var x = (new Date()).getTime()+ 3600000,
-          y = parseFloat(this.responseText);
-      //console.log(this.responseText);
-      if(chartL.series[0].data.length > 40) {
-        chartL.series[0].addPoint([x, y], true, true, true);
-      } else {
-        chartL.series[0].addPoint([x, y], true, false, true);
-      }
-    }
-  };
-  xhttp.open("GET", "/waterlevel", true);
-  xhttp.send();
-}, 30000 ) ;
-
-
-
-
-
-</script> 
-</html>)rawliteral";
-
-
-
 void setup() {
   // Serial port for debugging purposes
   Serial.begin(115200);
@@ -332,6 +138,8 @@ void setup() {
    server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
     request->send_P(200, "text/html", index_html);
   });
+
+ 
    
    server.on("/temperature", HTTP_GET, [](AsyncWebServerRequest *request){
     request->send_P(200, "text/plain", String(t).c_str());
