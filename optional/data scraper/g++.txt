@@ -1,0 +1,1 @@
+g++ data_scraper.cpp -o data_scraper -lcurl
