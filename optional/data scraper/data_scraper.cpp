@@ -145,7 +145,7 @@ int main(void)
 	tag = day(tag);
 	
 	if(tag == date_save){
-	
+	// Change URL to your ESP URL
 	get_data("http://196.254.157.86/waterlevel", "Wasserstand");
 	get_data("http://196.254.157.86/temperature", "Temperatur");
 	get_data("http://196.254.157.86/humidity", "Humidity");
