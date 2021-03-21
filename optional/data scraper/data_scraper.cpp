@@ -35,8 +35,8 @@ void get_data(string url, string name) {
     }
 	
 	
-	string filename = name + ".txt";
-	
+    string filename = "/home/pi/Hydro/" + name + ".txt"; //Change this to your path
+ 	
     ofstream data(filename, ios_base::app);
     if(!data) {
         cout << "cannot open the output file." << endl;
@@ -63,7 +63,7 @@ int day (int &d){ //get current day
 
 void mittelwert(string name){
 	
-	string filename = name + ".txt";
+	string filename = "/home/pi/Hydro/" + name + ".txt";
 	vector <float> werte;
 	float m;
 	
@@ -107,7 +107,7 @@ void mittelwert(string name){
 		
 	}
 	
-	string out = name + "_days.txt";
+	string out = "/home/pi/Hydro/" + name + "_days.txt";
 	
     ofstream data(out, ios_base::app);
     if(!data) {
@@ -125,7 +125,7 @@ void mittelwert(string name){
 	
 	// Empy old file
 	
-	string old = name + ".txt";
+	string old = "/home/pi/Hydro/" + name + ".txt";
 	ofstream ofs;
 	ofs.open(old, std::ofstream::out | std::ofstream::trunc);
 	ofs.close();
@@ -152,7 +152,7 @@ int main(void)
 	get_data("http://196.254.157.86/watertemp", "Watertemp");
 	get_data("http://196.254.157.86/co2", "Co2");
 	
-	this_thread::sleep_for (chrono::seconds(30));
+	this_thread::sleep_for (chrono::seconds(60));
 	
 	}
 	else if(tag != date_save){
@@ -161,10 +161,13 @@ int main(void)
 		mittelwert("Humidity");
 		mittelwert("Watertemp");
 		mittelwert("Co2");
+
+		date_save = tag;
 		
 	}
 	
-	cout << tag << " Ready" << endl; 
+	cout << tag << " Ready" << endl;
+       	cout << date_save << " | " << tag <<  endl; 	
 	}
 	
 
