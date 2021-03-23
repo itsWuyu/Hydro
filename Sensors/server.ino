@@ -1,4 +1,3 @@
-
 // Import required libraries
 #include <Arduino.h>
 #include <ESP8266WiFi.h>
@@ -10,7 +9,9 @@
 #include <DHT.h>
 #include <DallasTemperature.h>
 #include <SoftwareSerial.h>
+#include <ErriezMHZ19B.h>
 #include "index.h"
+
 
 
 
@@ -111,6 +112,40 @@ String readWaterLevel(){
   }
 
 
+//CO2
+
+// Pin defines
+    #define MHZ19B_TX_PIN        D5
+    #define MHZ19B_RX_PIN        D6
+
+SoftwareSerial mhzSerial(MHZ19B_TX_PIN, MHZ19B_RX_PIN);
+
+// Create MHZ19B object
+ErriezMHZ19B mhz19b(&mhzSerial);
+
+String readCO2(){
+if(mhz19b.isWarmingUp()){
+  Serial.println(F("Warming up..."));
+  return "0";
+  }
+
+else {
+  if(mhz19b.isReady()){
+  int16_t ppm = mhz19b.readCO2();
+  Serial.print("CO2 Wert : ");
+  Serial.println(ppm);
+  return String(ppm);
+    
+  }
+  else {
+    return "-1";
+    }
+  
+  }
+
+
+}
+
 
 void setup() {
   // Serial port for debugging purposes
@@ -118,6 +153,10 @@ void setup() {
 
    dht.begin(); //DHT11 Sensor starten
    DS18B20.begin(); // Start up the DS18B20 library
+
+    // Initialize senor software serial at fixed 9600 baudrate
+    mhzSerial.begin(9600);
+   
 
 
 
@@ -154,12 +193,17 @@ void setup() {
     server.on("/waterlevel", HTTP_GET, [](AsyncWebServerRequest *request){
     request->send_P(200, "text/plain", readWaterLevel().c_str());
     });
+     server.on("/co2", HTTP_GET, [](AsyncWebServerRequest *request){
+    request->send_P(200, "text/plain", readCO2().c_str());
+    });
     
     
 
   // Start server
   server.begin();
 }
+
+
 
 void loop() {
     
@@ -170,6 +214,11 @@ void loop() {
     readDHTHumidity(h);
 
     delay(5000);
+ 
+
+   
+
+    
      
  
 

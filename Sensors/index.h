@@ -47,6 +47,12 @@ const char index_html[] PROGMEM = R"rawliteral(
   <div id="chart-waterlevel" class="col-md-6"></div>
     </div>
   </div>
+   <div class="container" style="margin-top: 5%;">
+    <div class="row">
+  <div id="chart-co2" class="col-md-6"></div>
+  <div id="" class="col-md-6"></div>
+    </div>
+  </div>
 </body>
 <script>
 var chartT = new Highcharts.Chart({
@@ -210,6 +216,47 @@ setInterval(function ( ) {
     }
   };
   xhttp.open("GET", "/waterlevel", true);
+  xhttp.send();
+}, 30000 ) ;
+
+var chartC = new Highcharts.Chart({
+  chart:{ renderTo : 'chart-co2' },
+  title: { text: 'CO2 Wert' },
+  series: [{
+    showInLegend: false,
+    data: []
+  }],
+  plotOptions: {
+    line: { animation: false,
+      dataLabels: { enabled: true }
+    },
+    series: { color: '#1CAC78' }
+  },
+  xAxis: { type: 'datetime',
+    lineColor: 'black',
+    dateTimeLabelFormats: { second: '%H:%M:%S' }
+  },
+  yAxis: {
+    title: { text: 'ppm' }
+  
+  },
+  credits: { enabled: false }
+});
+setInterval(function ( ) {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      var x = (new Date()).getTime()+ 3600000,
+          y = parseFloat(this.responseText);
+      //console.log(this.responseText);
+      if(chartC.series[0].data.length > 40) {
+        chartC.series[0].addPoint([x, y], true, true, true);
+      } else {
+        chartC.series[0].addPoint([x, y], true, false, true);
+      }
+    }
+  };
+  xhttp.open("GET", "/co2", true);
   xhttp.send();
 }, 30000 ) ;
 
