@@ -17,4 +17,4 @@ TODO :
  - Check Sensor values via Telegram
  - Webscraper to get data from hidden page and store it into a database
  - Clean up Code
- - include MH-Z19B 
+ 
